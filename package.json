@@ -4,6 +4,12 @@
   "description": "Render html documents as Jade for easier reading",
   "version": "0.0.1",
   "publisher": "vivainio",
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/vivainio/jadeview"
+  },
+  "author": "Ville M. Vainio <vivainio@gmail.com>",
+
   "engines": {
     "vscode": "^0.10.6"
   },
