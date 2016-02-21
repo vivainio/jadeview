@@ -9,26 +9,34 @@ import path = require('path');
 import fs = require('fs');
 
 export function activate(context: vscode.ExtensionContext) {
+    let _temp = null;
+    function getTempFile() {
+        if (!_temp) {
+            _temp = tmp.tmpNameSync({
+                postfix:'.jade'
+            });
+        }
+        return _temp;
+    }
 
     let disposable = vscode.commands.registerCommand('extension.jadeView', () => {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
             return;
         }
+
         const text = editor.document.getText();
+        const showError = vscode.window.showErrorMessage;
 
         html2jade.convertHtml(text, {}, (err, jade) => {
-            const fname = path.basename(editor.document.fileName);
-            const {fd, name} = tmp.fileSync({
-                prefix: fname + '.',
-                postfix:'.jade'
-            });
-
-            fs.write(fd, jade);
-            fs.close(fd, (err) => {
-                vscode.workspace.openTextDocument(name).then((doc) => {
-                    vscode.window.showTextDocument(doc);
-                });
+            if (err) {
+                showError('Failed to convert to JADE');
+                return;
+            }
+            const fname = getTempFile();
+            fs.writeFileSync(fname, jade);
+            vscode.workspace.openTextDocument(fname).then((doc) => {
+                        vscode.window.showTextDocument(doc);
             });
         });
     });
