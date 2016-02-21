@@ -1,21 +1,23 @@
 {
   "name": "jadeview",
   "displayName": "jadeview",
-  "description": "Render html documents as Jade for easier reading",
-  "version": "0.0.1",
+  "description": "Render HTML documents as Jade for easier reading",
+  "version": "0.0.2",
   "publisher": "vivainio",
+  "author": "Ville M. Vainio <vivainio@gmail.com>",
+
   "repository": {
       "type": "git",
       "url": "https://github.com/vivainio/jadeview"
   },
-  "author": "Ville M. Vainio <vivainio@gmail.com>",
 
   "engines": {
     "vscode": "^0.10.6"
   },
   "categories": [
-    "Other"
+    "Languages"
   ],
+  "icon": "images/jadeview.png",
   "activationEvents": [
     "onCommand:extension.jadeView"
   ],
