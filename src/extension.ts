@@ -5,7 +5,11 @@ import * as vscode from 'vscode';
 
 
 const html2jade = require('html2jade');
+const tmp = require('tmp');
+
+import path = require('path');
 import fs = require('fs');
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -13,7 +17,6 @@ export function activate(context: vscode.ExtensionContext) {
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "jadeview" is now active!');
-
     // The command has been defined in the package.json file
     // Now provide the implementation of the command with  registerCommand
     // The commandId parameter must match the command field in package.json
@@ -27,10 +30,18 @@ export function activate(context: vscode.ExtensionContext) {
         const text = editor.document.getText();
 
         html2jade.convertHtml(text, {}, (err, jade) => {
-            fs.writeFileSync('c:/t/jade.jade', jade);
-            vscode.workspace.openTextDocument('c:/t/jade.jade').then((doc) => {
-                vscode.window.showTextDocument(doc);
-            })
+            const fname = path.basename(editor.document.fileName);
+            const {fd, name} = tmp.fileSync({
+                prefix: fname + '.',
+                postfix:'.jade'
+            });
+
+            fs.write(fd, jade);
+            fs.close(fd, (err) => {
+                vscode.workspace.openTextDocument(name).then((doc) => {
+                    vscode.window.showTextDocument(doc);
+                });
+            });
 
         });
     });
