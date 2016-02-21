@@ -26,11 +26,10 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         const text = editor.document.getText();
-        const showError = vscode.window.showErrorMessage;
 
         html2jade.convertHtml(text, {}, (err, jade) => {
             if (err) {
-                showError('Failed to convert to JADE');
+                vscode.window.showErrorMessage('Failed to convert to JADE');
                 return;
             }
             const fname = getTempFile();
