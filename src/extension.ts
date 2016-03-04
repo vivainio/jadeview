@@ -25,11 +25,14 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
-        
+
         const text = editor.document.getText();
         const options = {
             noemptypipe: true,
-            bodyless: true
+            bodyless: true,
+            nspaces: 4,
+            noattrcomma: true,
+
         }
         html2jade.convertHtml(text, options, (err, jade) => {
             if (err) {

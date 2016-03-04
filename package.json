@@ -2,7 +2,7 @@
   "name": "jadeview",
   "displayName": "jadeview",
   "description": "Render HTML documents as Jade for easier reading",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "vivainio",
   "author": "Ville M. Vainio <vivainio@gmail.com>",
   "license": "MIT",
