@@ -25,9 +25,13 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
+        
         const text = editor.document.getText();
-
-        html2jade.convertHtml(text, {}, (err, jade) => {
+        const options = {
+            noemptypipe: true,
+            bodyless: true
+        }
+        html2jade.convertHtml(text, options, (err, jade) => {
             if (err) {
                 vscode.window.showErrorMessage('Failed to convert to JADE');
                 return;
