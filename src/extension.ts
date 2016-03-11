@@ -2,6 +2,7 @@
 import * as vscode from 'vscode';
 
 
+
 const html2jade = require('html2jade');
 const tmp = require('tmp');
 
@@ -25,12 +26,19 @@ export function activate(context: vscode.ExtensionContext) {
             return;
         }
 
+        const cursor = editor.selection.active;
+        const anchor = editor.selection.anchor;
+        const range = new vscode.Range(anchor, cursor);
 
-        const text = editor.document.getText();
+        let text  = editor.document.getText(range);
+        if (text.length === 0) {
+            text = editor.document.getText();
+        }
+
         const options = {
             noemptypipe: true,
             bodyless: true,
-            nspaces: 4,
+            nspaces: 2,
             noattrcomma: true,
 
         }
