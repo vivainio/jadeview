@@ -11,16 +11,24 @@
     "url": "https://github.com/vivainio/jadeview"
   },
   "engines": {
-    "vscode": "^0.10.6"
+    "vscode": "^1.74.0",
+    "node": ">=18.0.0"
   },
   "categories": [
-    "Languages"
+    "Other"
+  ],
+  "keywords": [
+    "html",
+    "jade",
+    "pug",
+    "converter",
+    "formatter"
   ],
   "icon": "images/jadeview.png",
   "activationEvents": [
     "onCommand:extension.jadeView"
   ],
-  "main": "./out/src/extension",
+  "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
@@ -30,17 +38,29 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "node ./node_modules/vscode/bin/compile",
-    "compile": "node ./node_modules/vscode/bin/compile -watch -p ./",
-    "postinstall": "node ./node_modules/vscode/bin/install"
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "compile:watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test"
   },
   "devDependencies": {
-    "typescript": "^1.7.5",
-    "vscode": "^0.11.0"
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "@types/tmp": "^0.2.6",
+    "@types/vscode": "^1.74.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "@vscode/test-cli": "^0.0.4",
+    "@vscode/test-electron": "^2.3.8",
+    "eslint": "^8.56.0",
+    "glob": "^11.0.3",
+    "typescript": "^5.3.3"
   },
   "dependencies": {
-    "tmp": "0.0.28",
     "html2jade": "^0.8.4",
-    "readable-stream": "^2.0.5"
+    "tmp": "^0.2.1"
   }
 }

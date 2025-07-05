@@ -1,36 +1,31 @@
-'use strict';
 import * as vscode from 'vscode';
-
-
-
+import * as tmp from 'tmp';
+import * as fs from 'fs';
 const html2jade = require('html2jade');
-const tmp = require('tmp');
-
-import path = require('path');
-import fs = require('fs');
 
 export function activate(context: vscode.ExtensionContext) {
-    let _temp = null;
+    let tempFile: string | null = null;
+    
     function getTempFile() {
-        if (!_temp) {
-            _temp = tmp.tmpNameSync({
-                postfix:'.jade'
+        if (!tempFile) {
+            tempFile = tmp.tmpNameSync({
+                postfix: '.jade'
             });
         }
-        return _temp;
+        return tempFile;
     }
 
-    let disposable = vscode.commands.registerCommand('extension.jadeView', () => {
+    const disposable = vscode.commands.registerCommand('extension.jadeView', () => {
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
+            vscode.window.showErrorMessage('No active editor found');
             return;
         }
 
-        const cursor = editor.selection.active;
-        const anchor = editor.selection.anchor;
-        const range = new vscode.Range(anchor, cursor);
+        const selection = editor.selection;
+        const range = new vscode.Range(selection.start, selection.end);
 
-        let text  = editor.document.getText(range);
+        let text = editor.document.getText(range);
         if (text.length === 0) {
             text = editor.document.getText();
         }
@@ -40,17 +35,19 @@ export function activate(context: vscode.ExtensionContext) {
             bodyless: true,
             nspaces: 2,
             noattrcomma: true,
+        };
 
-        }
-        html2jade.convertHtml(text, options, (err, jade) => {
+        html2jade.convertHtml(text, options, (err: any, jade: string) => {
             if (err) {
-                vscode.window.showErrorMessage('Failed to convert to JADE');
+                vscode.window.showErrorMessage('Failed to convert to JADE: ' + err.message);
                 return;
             }
+            
             const fname = getTempFile();
             fs.writeFileSync(fname, jade);
-            vscode.workspace.openTextDocument(fname).then((doc) => {
-                        vscode.window.showTextDocument(doc);
+            
+            vscode.workspace.openTextDocument(fname).then((doc: vscode.TextDocument) => {
+                vscode.window.showTextDocument(doc);
             });
         });
     });
@@ -59,4 +56,5 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 export function deactivate() {
+    // Clean up any resources if needed
 }

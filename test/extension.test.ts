@@ -12,11 +12,26 @@ import * as vscode from 'vscode';
 import * as myExtension from '../src/extension';
 
 // Defines a Mocha test suite to group tests of similar kind together
-suite("Extension Tests", () => {
+suite('Extension Test Suite', () => {
+	vscode.window.showInformationMessage('Start all tests.');
 
-	// Defines a Mocha unit test
-	test("Something 1", () => {
-		assert.equal(-1, [1, 2, 3].indexOf(5));
-		assert.equal(-1, [1, 2, 3].indexOf(0));
+	test('Extension should be present', () => {
+		assert.ok(vscode.extensions.getExtension('vivainio.jadeview'));
+	});
+
+	test('Extension should activate', async () => {
+		const extension = vscode.extensions.getExtension('vivainio.jadeview');
+		assert.ok(extension);
+		
+		if (!extension!.isActive) {
+			await extension!.activate();
+		}
+		
+		assert.ok(extension!.isActive);
+	});
+
+	test('Jade View command should be available', async () => {
+		const commands = await vscode.commands.getCommands();
+		assert.ok(commands.includes('extension.jadeView'));
 	});
 });
