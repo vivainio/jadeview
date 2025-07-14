@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as tmp from 'tmp';
 import * as fs from 'fs';
 import { spawn } from 'child_process';
-const html2jade = require('html2jade');
+const html2pug = require('html2pug');
 
 export function activate(context: vscode.ExtensionContext) {
     let tempFile: string | null = null;
@@ -32,17 +32,12 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         const options = {
-            noemptypipe: true,
-            bodyless: true,
-            nspaces: 2,
-            noattrcomma: true,
+            tabs: false,
+            fragment: true
         };
 
-        html2jade.convertHtml(text, options, (err: any, pug: string) => {
-            if (err) {
-                vscode.window.showErrorMessage('Failed to convert to PUG: ' + err.message);
-                return;
-            }
+        try {
+            const pug = html2pug(text, options);
             
             const fname = getTempFile();
             fs.writeFileSync(fname, pug);
@@ -50,7 +45,10 @@ export function activate(context: vscode.ExtensionContext) {
             vscode.workspace.openTextDocument(fname).then((doc: vscode.TextDocument) => {
                 vscode.window.showTextDocument(doc);
             });
-        });
+        } catch (err: unknown) {
+            const errorMessage = err instanceof Error ? err.message : String(err);
+            vscode.window.showErrorMessage('Failed to convert to PUG: ' + errorMessage);
+        }
     });
 
     const unxmlDisposable = vscode.commands.registerCommand('extension.unxml', () => {

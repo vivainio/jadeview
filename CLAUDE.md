@@ -32,7 +32,7 @@ JadeView is a Visual Studio Code extension that converts HTML documents to Pug f
 - Uses temporary file management for displaying converted content
 
 **Key Dependencies**
-- `html2jade` - Converts HTML to Pug format
+- `html2pug` - Converts HTML to Pug format (modern replacement for html2jade)
 - `tmp` - Creates temporary files for output display
 - `vscode` - VS Code extension API
 
@@ -52,11 +52,9 @@ JadeView is a Visual Studio Code extension that converts HTML documents to Pug f
 
 ### HTML to Pug Conversion Options
 
-The extension uses these default options for html2jade:
-- `noemptypipe: true` - Avoids empty pipe characters
-- `bodyless: true` - Removes body wrapper
-- `nspaces: 2` - Uses 2 spaces for indentation
-- `noattrcomma: true` - No commas in attribute lists
+The extension uses these default options for html2pug:
+- `tabs: false` - Uses spaces instead of tabs for indentation
+- `fragment: true` - Treats input as HTML fragment (no html/head/body wrapper)
 
 ### External Tool Integration
 
@@ -71,7 +69,7 @@ The `extension.unxml` command integrates with an external `unxml` application:
 src/
 ├── extension.ts          # Main extension logic
 └── types/
-    └── html2pug.d.ts     # Type definitions for html2jade module
+    └── html2pug.d.ts     # Type definitions for html2pug module
 
 test/
 ├── extension.test.ts     # Main test suite

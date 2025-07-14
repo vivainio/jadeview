@@ -65,7 +65,7 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "html2jade": "^0.8.4",
+    "html2pug": "^4.0.0",
     "tmp": "^0.2.1"
   }
 }

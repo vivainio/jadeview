@@ -1,16 +1,13 @@
-declare module 'html2jade' {
+declare module 'html2pug' {
   interface ConvertOptions {
-    noemptypipe?: boolean;
-    bodyless?: boolean;
-    nspaces?: number;
-    noattrcomma?: boolean;
+    tabs?: boolean;
+    fragment?: boolean;
   }
 
-  function convertHtml(
+  function html2pug(
     html: string,
-    options: ConvertOptions,
-    callback: (error: any, pug: string) => void
-  ): void;
+    options?: ConvertOptions
+  ): string;
 
-  export = { convertHtml };
+  export = html2pug;
 } 

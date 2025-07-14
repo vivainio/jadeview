@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv:*)",
+      "Bash(unxml:*)",
+      "Bash(npm run compile:*)",
+      "Bash(git add:*)",
+      "Bash(git rm:*)",
+      "Bash(npm install:*)",
+      "Bash(npm view:*)",
+      "Bash(npm run lint)"
+    ],
+    "deny": []
+  }
+}
