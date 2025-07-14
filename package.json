@@ -26,7 +26,8 @@
   ],
   "icon": "images/jadeview.png",
   "activationEvents": [
-    "onCommand:extension.jadeView"
+    "onCommand:extension.jadeView",
+    "onCommand:extension.unxml"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -34,6 +35,10 @@
       {
         "command": "extension.jadeView",
         "title": "Jade View"
+      },
+      {
+        "command": "extension.unxml",
+        "title": "Unxml"
       }
     ]
   },

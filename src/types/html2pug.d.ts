@@ -9,7 +9,7 @@ declare module 'html2jade' {
   function convertHtml(
     html: string,
     options: ConvertOptions,
-    callback: (error: any, jade: string) => void
+    callback: (error: any, pug: string) => void
   ): void;
 
   export = { convertHtml };
