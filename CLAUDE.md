@@ -28,7 +28,8 @@ JadeView is a Visual Studio Code extension that converts HTML documents to Pug f
 
 **Main Extension (`src/extension.ts`)**
 - Entry point with `activate()` and `deactivate()` functions
-- Registers two commands: `extension.jadeView` and `extension.unxml`
+- Registers four commands: `extension.jadeView`, `extension.unxml`,
+  `extension.unxmlSelect`, and `extension.unxmlSpecial`
 - Uses temporary file management for displaying converted content
 
 **Key Dependencies**
@@ -38,17 +39,33 @@ JadeView is a Visual Studio Code extension that converts HTML documents to Pug f
 
 ### Extension Structure
 
-1. **Command Registration**: Two commands are registered in the activate function
-   - `extension.jadeView` - Main HTML to Pug conversion
-   - `extension.unxml` - External unxml tool integration
+1. **Command Registration**: Four commands are registered in the activate function
+   - `extension.jadeView` - Main HTML to Pug conversion (html2pug)
+   - `extension.unxml` - Render via `unxml --auto`
+   - `extension.unxmlSelect` - Render selected tag via `unxml --auto --select`
+   - `extension.unxmlSpecial` - Render via `unxml --special`
 
 2. **Text Processing**: 
    - Supports both full document and selected text conversion
    - If text is selected, only selection is converted; otherwise entire document
 
 3. **Output Display**:
-   - Creates temporary `.pug` files for display
+   - html2pug output goes to a temporary `.pug` file; unxml output to a
+     temporary `.unxml` file (highlighted by the bundled grammar). One reusable
+     temp file per extension, so repeated runs replace the same tab.
    - Uses VS Code's document opening API to show results in new editor tabs
+
+### Bundled `.unxml` Language
+
+The extension bundles syntax highlighting for unxml's Pug-like output, so no
+separate language extension is needed:
+
+- `syntaxes/unxml.tmLanguage.json` — TextMate grammar (scope `source.unxml`)
+- `unxml-language-configuration.json` — comments/brackets config for the
+  `unxml` language (`.unxml` files)
+
+These are copied from `unxml-rs/editor/vscode/`; keep them in sync if the
+grammar changes upstream.
 
 ### HTML to Pug Conversion Options
 
@@ -56,12 +73,30 @@ The extension uses these default options for html2pug:
 - `tabs: false` - Uses spaces instead of tabs for indentation
 - `fragment: true` - Treats input as HTML fragment (no html/head/body wrapper)
 
-### External Tool Integration
+### External Tool Integration (unxml)
 
-The `extension.unxml` command integrates with an external `unxml` application:
-- Spawns child process to execute `unxml`
-- Passes HTML content via stdin
-- Displays formatted output in temporary file
+Three commands shell out to the external `unxml` application via a shared
+`runUnxml(text, ext, args)` helper:
+
+- `extension.unxml` ("Unxml: Render") — runs `unxml --auto`. `--auto` selects
+  the formatter (plain XML / XSLT / XSD / Schematron) from the file extension and
+  hides well-known namespaces (e.g. UBL `cbc:`/`cac:`).
+- `extension.unxmlSelect` ("Unxml: Select Tag…") — prompts for a tag name and
+  runs `unxml --auto --select <tag>`, rendering only the matching subtrees. A
+  bare name matches the local name (prefix-insensitive); a prefixed name like
+  `cac:InvoiceLine` matches the full name.
+- `extension.unxmlSpecial` ("Unxml: Render (Special)") — runs `unxml --special`
+  for the proprietary business-element transformation rules.
+
+Key detail: the temp input file mirrors the **source document's extension**
+(via `sourceExtension()`), so `--auto` mode detection works. Unsaved buffers map
+their `languageId` to an extension, defaulting to `.xml`.
+
+The `unxml` binary is always assumed to be on PATH.
+
+Settings (`jadeview.*`):
+- `unxmlExtraArgs` — extra args appended to every invocation, e.g.
+  `["--hide-ns", "cbc,cac"]`.
 
 ## File Structure
 
@@ -70,6 +105,11 @@ src/
 ├── extension.ts          # Main extension logic
 └── types/
     └── html2pug.d.ts     # Type definitions for html2pug module
+
+syntaxes/
+└── unxml.tmLanguage.json # Bundled grammar for the .unxml output language
+
+unxml-language-configuration.json  # Language config for .unxml
 
 test/
 ├── extension.test.ts     # Main test suite
@@ -89,9 +129,12 @@ test/
 ## Extension Manifest
 
 The extension contributes:
-- One command: "Jade View" (`extension.jadeView`) - converts HTML to Pug
-- Activation on command execution
-- No additional UI elements or settings
+- Four commands: "Jade View", "Unxml: Render", "Unxml: Select Tag…", and
+  "Unxml: Render (Special)"
+- Activation is inferred from contributed commands (no explicit
+  `activationEvents` — the deprecated `onCommand:` entries were removed)
+- The `unxml` language + grammar for `.unxml` files
+- Settings under `jadeview.*`: `unxmlExtraArgs`
 
 ## Testing Strategy
 

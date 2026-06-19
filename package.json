@@ -2,7 +2,7 @@
   "name": "jadeview",
   "displayName": "jadeview",
   "description": "Render HTML documents as Jade for easier reading",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "vivainio",
   "author": "Ville M. Vainio <vivainio@gmail.com>",
   "license": "MIT",
@@ -25,10 +25,6 @@
     "formatter"
   ],
   "icon": "images/jadeview.png",
-  "activationEvents": [
-    "onCommand:extension.jadeView",
-    "onCommand:extension.unxml"
-  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -38,9 +34,50 @@
       },
       {
         "command": "extension.unxml",
-        "title": "Unxml"
+        "title": "Unxml: Render"
+      },
+      {
+        "command": "extension.unxmlSelect",
+        "title": "Unxml: Select Tag…"
+      },
+      {
+        "command": "extension.unxmlSpecial",
+        "title": "Unxml: Render (Special)"
       }
-    ]
+    ],
+    "languages": [
+      {
+        "id": "unxml",
+        "aliases": [
+          "UnXML",
+          "unxml"
+        ],
+        "extensions": [
+          ".unxml"
+        ],
+        "configuration": "./unxml-language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "unxml",
+        "scopeName": "source.unxml",
+        "path": "./syntaxes/unxml.tmLanguage.json"
+      }
+    ],
+    "configuration": {
+      "title": "JadeView",
+      "properties": {
+        "jadeview.unxmlExtraArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Extra arguments appended to every unxml invocation, e.g. [\"--hide-ns\", \"cbc,cac\"]."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
