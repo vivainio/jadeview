@@ -18,8 +18,8 @@ JadeView is a Visual Studio Code extension that converts HTML documents to Pug f
 
 ### Testing
 - Use `npm run test` to run the full test suite
-- Tests are located in `test/extension.test.ts`
-- Uses Mocha test framework with VS Code test runner
+- Tests are located in `src/test/extension.test.ts` (compiled to `out/test/`)
+- Uses Mocha via `@vscode/test-cli` (config in `.vscode-test.mjs`)
 - Tests verify extension presence, activation, and command availability
 
 ## Architecture
@@ -103,6 +103,8 @@ Settings (`jadeview.*`):
 ```
 src/
 ├── extension.ts          # Main extension logic
+├── test/
+│   └── extension.test.ts # Main test suite (run via @vscode/test-cli)
 └── types/
     └── html2pug.d.ts     # Type definitions for html2pug module
 
@@ -110,12 +112,8 @@ syntaxes/
 └── unxml.tmLanguage.json # Bundled grammar for the .unxml output language
 
 unxml-language-configuration.json  # Language config for .unxml
-
-test/
-├── extension.test.ts     # Main test suite
-├── index.ts             # Test index
-└── suite/
-    └── index.ts         # Test suite configuration
+.vscode-test.mjs                   # @vscode/test-cli config (test discovery)
+eslint.config.mjs                  # ESLint flat config (ESLint 9)
 ```
 
 ## Development Notes

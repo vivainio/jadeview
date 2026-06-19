@@ -3,7 +3,7 @@ import * as tmp from 'tmp';
 import * as fs from 'fs';
 import * as path from 'path';
 import { spawn } from 'child_process';
-const html2pug = require('html2pug');
+import html2pug from 'html2pug';
 
 export function activate(context: vscode.ExtensionContext) {
     // One reusable output temp file per extension, so repeated runs replace the
@@ -84,7 +84,7 @@ export function activate(context: vscode.ExtensionContext) {
         child.on('close', (code: number) => {
             try {
                 fs.unlinkSync(inputFile);
-            } catch (err) {
+            } catch {
                 // Ignore cleanup errors
             }
 
@@ -104,7 +104,7 @@ export function activate(context: vscode.ExtensionContext) {
         child.on('error', (error: Error) => {
             try {
                 fs.unlinkSync(inputFile);
-            } catch (err) {
+            } catch {
                 // Ignore cleanup errors
             }
             vscode.window.showErrorMessage(`Failed to execute unxml: ${error.message}`);
