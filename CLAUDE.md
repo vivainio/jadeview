@@ -120,7 +120,7 @@ eslint.config.mjs                  # ESLint flat config (ESLint 9)
 ## Development Notes
 
 - Target VS Code version: ^1.74.0
-- Node.js version: >=18.0.0
+- Node.js version: >=20.0.0
 - TypeScript compilation target: ES2020
 - Uses CommonJS modules
 - ESLint configuration includes TypeScript-specific rules
