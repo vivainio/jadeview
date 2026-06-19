@@ -14,9 +14,13 @@ otherwise the whole document is.
 ## Installation
 
 Download the latest `.vsix` from the
-[Releases page](https://github.com/vivainio/jadeview/releases), then in VS Code
-run **Extensions: Install from VSIX…** from the Command Palette (or
+[Releases page](https://github.com/vivainio/jadeview/releases/latest), then in
+VS Code run **Extensions: Install from VSIX…** from the Command Palette (or
 `code --install-extension jadeview-<version>.vsix`).
+
+The **Unxml** commands additionally require the external `unxml` binary on your
+`PATH` — install it with `uv tool install unxml-rs` (see
+[Commands](#commands)). The **Jade View** command needs no extra tools.
 
 ## Commands
 
