@@ -1,8 +1,8 @@
 {
   "name": "jadeview",
-  "displayName": "jadeview",
-  "description": "Render HTML documents as Jade for easier reading",
-  "version": "1.1.0",
+  "displayName": "JadeView",
+  "description": "View HTML as Pug and render XML/XSLT/XSD/Schematron (via unxml) for easier reading.",
+  "version": "1.2.0",
   "publisher": "vivainio",
   "author": "Ville M. Vainio <vivainio@gmail.com>",
   "license": "MIT",
@@ -15,12 +15,18 @@
     "node": ">=18.0.0"
   },
   "categories": [
-    "Other"
+    "Formatters",
+    "Visualization",
+    "Programming Languages"
   ],
   "keywords": [
     "html",
-    "jade",
     "pug",
+    "xml",
+    "unxml",
+    "xslt",
+    "xsd",
+    "ubl",
     "converter",
     "formatter"
   ],

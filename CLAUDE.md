@@ -92,7 +92,8 @@ Key detail: the temp input file mirrors the **source document's extension**
 (via `sourceExtension()`), so `--auto` mode detection works. Unsaved buffers map
 their `languageId` to an extension, defaulting to `.xml`.
 
-The `unxml` binary is always assumed to be on PATH.
+The `unxml` binary is always assumed to be on PATH. It is distributed as
+`unxml-rs` on PyPI — install with `uv tool install unxml-rs`.
 
 Settings (`jadeview.*`):
 - `unxmlExtraArgs` — extra args appended to every invocation, e.g.

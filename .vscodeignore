@@ -1,11 +1,15 @@
 .vscode/**
 .vscode-test/**
 .vscode-test.mjs
+.claude/**
+.github/**
 src/**
 out/test/**
 .gitignore
 .yarnrc
+CLAUDE.md
 vsc-extension-quickstart.md
+eslint.config.mjs
 **/tsconfig.json
 **/.eslintrc.json
 **/*.map
