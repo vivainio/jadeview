@@ -3,6 +3,16 @@
 .vscode-test.mjs
 .claude/**
 .github/**
+.idea/**
+.bashrc
+.bash_profile
+.profile
+.zshrc
+.zprofile
+.gitconfig
+.gitmodules
+.mcp.json
+.ripgreprc
 src/**
 out/test/**
 .gitignore
