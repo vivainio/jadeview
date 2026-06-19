@@ -1,0 +1,42 @@
+name: Release
+
+# Builds the .vsix and attaches it to a GitHub Release when a version tag is
+# pushed, e.g.:
+#   git tag v1.2.0 && git push --follow-tags
+# No Marketplace account or PAT required — users download the .vsix from the
+# release page and install via "Extensions: Install from VSIX…".
+on:
+  push:
+    tags: [ 'v*' ]
+
+permissions:
+  contents: write   # needed to create the release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+        cache: npm
+
+    - name: Install dependencies
+      run: npm install
+
+    # Gate the release on the full suite. `npm test` runs pretest (compile +
+    # lint) first; Electron needs a display, so wrap it in xvfb.
+    - name: Test
+      run: xvfb-run -a npm test
+
+    - name: Package extension
+      run: npx @vscode/vsce package -o jadeview-${{ github.ref_name }}.vsix
+
+    - name: Create GitHub Release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: gh release create "${{ github.ref_name }}" jadeview-${{ github.ref_name }}.vsix --generate-notes

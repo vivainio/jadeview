@@ -11,6 +11,13 @@ temporary tab:
 If text is selected when you run a command, only the selection is converted;
 otherwise the whole document is.
 
+## Installation
+
+Download the latest `.vsix` from the
+[Releases page](https://github.com/vivainio/jadeview/releases), then in VS Code
+run **Extensions: Install from VSIX…** from the Command Palette (or
+`code --install-extension jadeview-<version>.vsix`).
+
 ## Commands
 
 Run these from the Command Palette (`Ctrl/Cmd+Shift+P`):
