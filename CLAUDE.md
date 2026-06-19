@@ -64,8 +64,10 @@ separate language extension is needed:
 - `unxml-language-configuration.json` — comments/brackets config for the
   `unxml` language (`.unxml` files)
 
-These are copied from `unxml-rs/editor/vscode/`; keep them in sync if the
-grammar changes upstream.
+This extension is the home of the VS Code `.unxml` grammar (it used to live in
+`unxml-rs/editor/vscode/`, now removed). The sibling `unxml.sublime-syntax` in
+the `unxml-rs` repo describes the same language for the Sublime/bat (`syntect`)
+engine — keep the two representations in sync if the grammar changes.
 
 ### HTML to Pug Conversion Options
 
