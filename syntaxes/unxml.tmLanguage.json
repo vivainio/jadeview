@@ -141,6 +141,7 @@
     },
     "xpath": {
       "patterns": [
+        { "match": "\\?\\?", "name": "keyword.operator.unxml" },
         { "match": "//|/", "name": "punctuation.separator.path.unxml" },
         { "match": "!=|<=|>=|=|<|>", "name": "keyword.operator.comparison.unxml" },
         { "match": "\\b(and|or|not|div|mod)\\b", "name": "keyword.operator.logical.unxml" },
