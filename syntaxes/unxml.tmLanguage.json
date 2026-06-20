@@ -7,8 +7,8 @@
     { "include": "#each-line" },
     { "include": "#test-line" },
     { "include": "#ref-line" },
+    { "include": "#block-line" },
     { "include": "#keyword-line" },
-    { "include": "#block-colon" },
     { "include": "#section-line" },
     { "include": "#tag-line" },
     { "include": "#value-of" },
@@ -35,6 +35,26 @@
     "block-colon": {
       "match": ":(?=\\s*$)",
       "name": "punctuation.section.block.unxml"
+    },
+    "block-line": {
+      "comment": "Block-opening keyword line; a trailing ':' is the block marker.",
+      "begin": "^\\s*(else|choose|call|foreach|element|template)\\b",
+      "beginCaptures": {
+        "1": { "name": "keyword.control.unxml" }
+      },
+      "end": "$",
+      "patterns": [
+        { "include": "#block-colon" },
+        { "include": "#attributes" },
+        { "include": "#value-of" },
+        { "include": "#type-ref" },
+        { "include": "#xsd-keyword" },
+        { "include": "#cardinality" },
+        { "include": "#operators" },
+        { "include": "#assignment-value" },
+        { "include": "#attr-ref" },
+        { "include": "#string" }
+      ]
     },
     "section-line": {
       "match": "^\\s*(#)([A-Za-z_][\\w.:-]*)",
