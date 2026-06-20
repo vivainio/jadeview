@@ -2,7 +2,7 @@
   "name": "jadeview",
   "displayName": "JadeView",
   "description": "View HTML as Pug and render XML/XSLT/XSD/Schematron (via unxml) for easier reading.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "publisher": "vivainio",
   "author": "Ville M. Vainio <vivainio@gmail.com>",
   "license": "MIT",
