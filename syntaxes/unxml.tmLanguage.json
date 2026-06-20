@@ -27,7 +27,7 @@
       "name": "comment.line.unxml"
     },
     "keyword-line": {
-      "match": "^\\s*(if|else|each|when|choose|apply|call|copy|foreach|import|element|param|template|rule|pattern|phase|schema|active|notation|list|union|type|ns|title|mixin)\\b",
+      "match": "^\\s*(if|else|each|when|choose|apply|call|copy|foreach|import|element|param|template|match|rule|pattern|phase|schema|active|notation|list|union|type|ns|title|mixin)\\b",
       "captures": {
         "1": { "name": "keyword.control.unxml" }
       }
@@ -38,7 +38,7 @@
     },
     "block-line": {
       "comment": "Block-opening keyword line; a trailing ':' is the block marker.",
-      "begin": "^\\s*(else|choose|call|foreach|element|template)\\b",
+      "begin": "^\\s*(else|choose|call|foreach|element|template|match)\\b",
       "beginCaptures": {
         "1": { "name": "keyword.control.unxml" }
       },
