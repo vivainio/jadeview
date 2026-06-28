@@ -10,6 +10,7 @@
     { "include": "#block-line" },
     { "include": "#keyword-line" },
     { "include": "#section-line" },
+    { "include": "#path-line" },
     { "include": "#tag-line" },
     { "include": "#value-of" },
     { "include": "#attributes" },
@@ -62,6 +63,27 @@
         "1": { "name": "punctuation.definition.section.unxml" },
         "2": { "name": "entity.name.section.unxml" }
       }
+    },
+    "path-line": {
+      "comment": "A collapsed wrapper-chain path from --collapse, e.g. ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent. Each /-joined segment is a tag (prefix dimmed); the trailing attributes/text are handled by the included line rules.",
+      "begin": "^\\s*(?=[A-Za-z_][\\w-]*(?::[A-Za-z_][\\w.-]*)?(?:/[A-Za-z_][\\w-]*(?::[A-Za-z_][\\w.-]*)?)+)",
+      "end": "$",
+      "patterns": [
+        { "match": "/", "name": "punctuation.separator.path.unxml" },
+        {
+          "match": "([A-Za-z_][\\w-]*:)([A-Za-z_][\\w.-]*)",
+          "captures": {
+            "1": { "name": "comment.namespace.unxml" },
+            "2": { "name": "entity.name.tag.unxml" }
+          }
+        },
+        { "match": "[A-Za-z_][\\w-]*", "name": "entity.name.tag.unxml" },
+        { "include": "#attributes" },
+        { "include": "#operators" },
+        { "include": "#assignment-value" },
+        { "include": "#attr-ref" },
+        { "include": "#string" }
+      ]
     },
     "tag-line": {
       "match": "^\\s*(?:([A-Za-z_][\\w-]*:)([A-Za-z_][\\w.-]*)|([A-Za-z_][\\w-]*))((?:\\.[\\w-]+)*)",
